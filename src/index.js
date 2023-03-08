@@ -3,11 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import '@fortawesome/fontawesome-free/js/all.js';
-import Youtube from "./service/youtube/youtube";
+import Youtube from "./service/youtube/youtube_axios";
+import axios from "axios";
 // npm install --save @fortawesome/fontawesome-free
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const youtube = new Youtube(process.env.REACT_APP_YOUTUBE_API_KEY)
+const httpClient = axios.create({
+    baseURL: 'https://www.googleapis.com/youtube/v3',
+    params: {
+        key: process.env.REACT_APP_YOUTUBE_API_KEY
+    }
+})
+const youtube = new Youtube(httpClient)
 
 root.render(
   <React.StrictMode>

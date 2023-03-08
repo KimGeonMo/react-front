@@ -3,7 +3,7 @@ import {useState} from "react";
 import HabitTrack from "./components/habit_track/habitTrack";
 import Youtube from "./components/youtube/youtube";
 
-const App = () => {
+const App = ({youtube}) => {
     const [page, setPage] = useState("home")
     const pages = [
         {id: 1, name: "habitTrack"},
@@ -15,7 +15,7 @@ const App = () => {
     if (page === 'habitTrack') {
         content = <HabitTrack/>
     } else if (page === 'youtube') {
-        content = <Youtube/>
+        content = <Youtube youtube={youtube}/>
     }
 
     return (

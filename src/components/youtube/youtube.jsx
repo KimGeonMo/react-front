@@ -1,32 +1,31 @@
-import './youtube.css'
-import Header from "./components/header";
+import styles from './youtube.module.css'
 import {useEffect, useState} from "react";
 import VideoList from "./components/video_list/video_list";
+import SearchHeader from "./components/search_header/search_header";
 
-function Youtube(props) {
+function Youtube({youtube}) {
 
     const [videos, setVideos] = useState([]);
 
-    useEffect(() => {
-        const requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
+    const search = (query) => {
+        youtube
+            .search(query)
+            .then(videos => setVideos(videos));
+    }
 
-        fetch(
-            "https://www.googleapis.com/youtube/v3/videos?chart=mostPopular&maxResults=25&key=AIzaSyAhpg8-NSkeU-V2Ms9SCBozkCVzKrjkQzQ&part=snippet"
-            , requestOptions
-        )
-            .then(response => response.json())
-            .then(result => setVideos(result.items))
-            .catch(error => console.log('error', error));
+    useEffect(() => {
+        youtube
+            .mostPopular()
+            .then(videos => setVideos(videos));
     }, []);
 
     return (
-        // <Header/>
-        <VideoList
-            videos={videos}
-        />
+        <div className={styles.app}>
+            <SearchHeader onSearch={search}/>
+            <VideoList
+                videos={videos}
+            />
+        </div>
     )
 
 }
